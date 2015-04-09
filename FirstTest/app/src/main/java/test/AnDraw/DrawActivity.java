@@ -20,52 +20,8 @@ public class DrawActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_draw);
-
-//        Button button1 = (Button)findViewById(R.id.button);
-//        button1.setOnClickListener(new Button.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View v)
-//            {
-//                Intent intent = new Intent();
-//                intent.setType("image/*");
-//                intent.setAction(Intent.ACTION_GET_CONTENT);
-//                startActivityForResult(intent,1);
-//            }
-//        });
     }
-//
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (resultCode == RESULT_OK) {
-//            Uri uri = data.getData();
-//            ContentResolver cr = this.getContentResolver();
-//            try{
-//                BitmapFactory.Options options = new BitmapFactory.Options();
-//                options.inJustDecodeBounds = true;
-//                //Bitmap bm = BitmapFactory.decodeStream(cr.openInputStream(uri));
-//                Bitmap bm = BitmapFactory.decodeStream(cr.openInputStream(uri),null,options);
-//                options.inJustDecodeBounds = false;
-//                //计算缩放比
-//                int beh = (int)(options.outHeight / (float)1000);
-//                if (beh <= 0)
-//                    beh = 1;
-//                int bew = (int)(options.outWidth / (float)1000);
-//                if (bew <= 0)
-//                    bew = 1;
-//                options.inSampleSize = beh > bew? beh : bew;
-//                bm = BitmapFactory.decodeStream(cr.openInputStream(uri),null,options);
-//                //iv.setImageBitmap(bm);
-//
-//            }catch (FileNotFoundException e)
-//            {
-//                e.printStackTrace();
-//            }
-//        }
-//
-//        super.onActivityResult(requestCode, resultCode, data);
-//    }
-//
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         DrawView dv = (DrawView)findViewById(R.id.drawView);
@@ -108,41 +64,8 @@ public class DrawActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_draw, menu);
         return true;
-    }
-
-    private static boolean isExit = false;
-
-    Handler mHandler = new Handler() {
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            isExit = false;
-        }
-    };
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            exit();
-            return false;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-    private void exit() {
-        if (!isExit) {
-            isExit = true;
-            Toast.makeText(getApplicationContext(), "再按一次退出程序",
-                    Toast.LENGTH_SHORT).show();
-            // 利用handler延迟发送更改状态信息
-            mHandler.sendEmptyMessageDelayed(0, 2000);
-        } else {
-            finish();
-            System.exit(0);
-        }
     }
 
     private void showDialog(final String dir){

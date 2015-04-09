@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -59,19 +60,8 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private Button button1;
-    private ImageView iv;
 
     private Button.OnClickListener mainOnClickListener;
-
-    private Bitmap bitmap, alteredBitmap;
-    // 定義畫布
-    private Canvas canvas;
-    // 定義畫筆
-    private Paint paint;
-    // 定義輸入矩陣，該類使之在一幅圖像上應用空間轉換（比如旋轉，評議，縮放，裁剪等）
-    private Matrix matrix;
-    // 定義按下和停止的位置（x,y）座標
-    private float downX = 0, downY = 0, upX = 0, upY = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,7 +69,6 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         button1 = (Button)findViewById(R.id.button);
-        iv = (ImageView)findViewById(R.id.imageView);
 
         mainOnClickListener = new Button.OnClickListener()
         {
@@ -113,15 +102,23 @@ public class MainActivity extends ActionBarActivity {
                 Bitmap bm = BitmapFactory.decodeStream(cr.openInputStream(uri),null,options);
                 options.inJustDecodeBounds = false;
                 //计算缩放比
-                int beh = (int)(options.outHeight / (float)1000);
+                DisplayMetrics  dm = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(dm);
+                int view_width = dm.widthPixels;
+                int view_height = dm.heightPixels;
+
+                int beh = (int)(options.outHeight / (float)view_height);
                 if (beh <= 0)
                     beh = 1;
-                int bew = (int)(options.outWidth / (float)1000);
+                int bew = (int)(options.outWidth / (float)view_width);
                 if (bew <= 0)
                     bew = 1;
                 options.inSampleSize = beh > bew? beh : bew;
                 bm = BitmapFactory.decodeStream(cr.openInputStream(uri),null,options);
-                iv.setImageBitmap(bm);
+
+                Intent intent = new Intent(MainActivity.this,DrawActivity.class);
+                //Bundle bundle = new Bundle();
+                startActivity(intent);
             }catch (FileNotFoundException e)
             {
                 e.printStackTrace();
