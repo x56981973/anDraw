@@ -3,6 +3,8 @@ package test.AnDraw;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,15 +18,21 @@ import android.widget.Toast;
 
 
 public class DrawActivity extends ActionBarActivity {
+    public DrawView dv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_draw);
+
+        dv = (DrawView)findViewById(R.id.drawView);
+        BitmapProvider bitmapProvider = new BitmapProvider();
+        Bitmap bm = bitmapProvider.getBitmap();
+        dv.setBitmap(bm);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        DrawView dv = (DrawView)findViewById(R.id.drawView);
         dv.paint.setXfermode(null);        //取消擦除效果
         dv.paint.setStrokeWidth(1);        //初始化笔的宽度
         switch (item.getItemId()) {
