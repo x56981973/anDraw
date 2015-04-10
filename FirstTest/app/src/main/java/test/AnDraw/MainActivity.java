@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 
 
@@ -60,7 +61,6 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private Button button1;
-
     private Button.OnClickListener mainOnClickListener;
 
     @Override
@@ -115,10 +115,10 @@ public class MainActivity extends ActionBarActivity {
                     bew = 1;
                 options.inSampleSize = beh > bew? beh : bew;
                 bm = BitmapFactory.decodeStream(cr.openInputStream(uri),null,options);
-
-                Intent intent = new Intent(MainActivity.this,DrawActivity.class);
-                //Bundle bundle = new Bundle();
-                startActivity(intent);
+                BitmapProvider bitmapProvider = new BitmapProvider();
+                bitmapProvider.setBitmap(bm);
+//                Intent intent = new Intent(MainActivity.this,DrawActivity.class);
+//                startActivity(intent);
             }catch (FileNotFoundException e)
             {
                 e.printStackTrace();

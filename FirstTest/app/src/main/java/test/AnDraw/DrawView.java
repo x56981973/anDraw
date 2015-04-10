@@ -45,8 +45,6 @@ public class DrawView extends View {
         view_width = context.getResources().getDisplayMetrics().widthPixels;	//获取屏幕宽度
         view_height = context.getResources().getDisplayMetrics().heightPixels;	//获取屏幕高度
 
-
-
         //创建一个与该view相同大小的缓存区,Config.ARGB_8888 --> 一种32位的位图,意味着有四个参数,即A,R,G,B,每一个参数由8bit来表示.
         cacheBitmap = Bitmap.createBitmap(view_width, view_height, Config.ARGB_8888);
         cacheCanvas = new Canvas();		//创建一个新画布
@@ -105,6 +103,12 @@ public class DrawView extends View {
         return true;		//返回true表示处理方法已经处理该事件
     }
 
+    /*
+    设置背景
+     */
+    public void setBitmap(Bitmap bm){
+        //cacheCanvas.setBitmap(bm);
+    }
 
     /*
      * 橡皮擦功能
