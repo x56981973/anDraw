@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,7 +29,10 @@ public class DrawActivity extends ActionBarActivity {
         dv = (DrawView)findViewById(R.id.drawView);
         BitmapProvider bitmapProvider = new BitmapProvider();
         Bitmap bm = bitmapProvider.getBitmap();
-        dv.setBitmap(bm);
+        if(bm != null){
+            Log.i("Jason", "Set Bitmap");
+            dv.setBitmap(bm);
+        }else Log.i("Jason", "No Bitmap");
     }
 
     @Override

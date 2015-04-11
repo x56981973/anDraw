@@ -117,8 +117,8 @@ public class MainActivity extends ActionBarActivity {
                 bm = BitmapFactory.decodeStream(cr.openInputStream(uri),null,options);
                 BitmapProvider bitmapProvider = new BitmapProvider();
                 bitmapProvider.setBitmap(bm);
-//                Intent intent = new Intent(MainActivity.this,DrawActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(MainActivity.this,DrawActivity.class);
+                startActivity(intent);
             }catch (FileNotFoundException e)
             {
                 e.printStackTrace();

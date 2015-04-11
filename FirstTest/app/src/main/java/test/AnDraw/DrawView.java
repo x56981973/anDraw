@@ -47,9 +47,8 @@ public class DrawView extends View {
 
         //创建一个与该view相同大小的缓存区,Config.ARGB_8888 --> 一种32位的位图,意味着有四个参数,即A,R,G,B,每一个参数由8bit来表示.
         cacheBitmap = Bitmap.createBitmap(view_width, view_height, Config.ARGB_8888);
-        cacheCanvas = new Canvas();		//创建一个新画布
-        cacheCanvas.setBitmap(cacheBitmap);		//在cacheCanvas上绘制cacheBitmap
 
+        cacheCanvas = new Canvas(cacheBitmap);		//创建一个新画布
         path = new Path();
         paint = new Paint(Paint.DITHER_FLAG);	//Paint.DITHER_FLAG 防抖动
         paint.setColor(Color.RED);				//设置默认的画笔颜色为红色
@@ -107,7 +106,9 @@ public class DrawView extends View {
     设置背景
      */
     public void setBitmap(Bitmap bm){
-        //cacheCanvas.setBitmap(bm);
+        //int bHeight = bm.getHeight();
+        //int bWidth = bm.getWidth();
+        cacheCanvas.drawBitmap(bm,0,0,null);
     }
 
     /*
@@ -139,15 +140,15 @@ public class DrawView extends View {
             String fileName = s.format(new Date());
 
             File sdDir = android.os.Environment.getExternalStorageDirectory();
-            File file = new File(sdDir.toString() + "/pictures/" + fileName + ".png");    //创建文件对象
+            File file = new File(sdDir.toString() + "/pictures/" + fileName + ".jpg");    //创建文件对象
             file.createNewFile();    //创建一个新文件
             FileOutputStream fileOS = new FileOutputStream(file);    //创建一个文件输出流对象
             //将绘图内容压缩为png格式输出到输出流对象中,其中100代表品质
-            cacheBitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOS);
+            cacheBitmap.compress(Bitmap.CompressFormat.JPEG, 50, fileOS);
             fileOS.flush();        //将缓冲区中的数据全部写出到输出流中
             fileOS.close();        //关闭文件输出流对象
 
-            String dir = sdDir.toString() + "/pictures/" + fileName + ".png";
+            String dir = sdDir.toString() + "/pictures/" + fileName + ".jpg";
             Log.i("xzy",dir);
             return dir;
         }
