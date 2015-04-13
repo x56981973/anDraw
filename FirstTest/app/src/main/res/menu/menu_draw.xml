@@ -13,14 +13,13 @@
     <item android:title="画笔宽度">
         <menu>
             <group>
-                <item android:id="@+id/width_1" android:title="10"/>
-                <item android:id="@+id/width_2" android:title="20"/>
-                <item android:id="@+id/width_3" android:title="30"/>
+                <item android:id="@+id/width_1" android:title="1"/>
+                <item android:id="@+id/width_2" android:title="2"/>
+                <item android:id="@+id/width_3" android:title="3"/>
             </group>
         </menu>
     </item>
-    <item android:id="@+id/clear" android:title="擦除"/>
-    <item android:id="@+id/reset" android:title="恢复"/>
+    <item android:id="@+id/clear" android:title="清空"/>
     <item android:id="@+id/save" android:title="保存"/>
 
 </menu>

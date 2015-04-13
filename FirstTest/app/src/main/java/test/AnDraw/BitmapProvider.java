@@ -7,10 +7,7 @@ import android.graphics.Bitmap;
  */
 public class BitmapProvider {
     private static Bitmap bitmap;
-    public static int flag = 0;
 
     public static Bitmap getBitmap(){ return bitmap;}
     public static void setBitmap(Bitmap bm) {bitmap = bm;}
-    public static boolean isSet() {return flag == 1;}
-    public static void destroy() {bitmap.recycle();flag = 0;}
 }

@@ -45,9 +45,10 @@ public class DrawView extends View {
         view_width = context.getResources().getDisplayMetrics().widthPixels;	//获取屏幕宽度
         view_height = context.getResources().getDisplayMetrics().heightPixels;	//获取屏幕高度
 
+        //创建一个与该view相同大小的缓存区,Config.ARGB_8888 --> 一种32位的位图,意味着有四个参数,即A,R,G,B,每一个参数由8bit来表示.
         cacheBitmap = Bitmap.createBitmap(view_width, view_height, Config.ARGB_8888);
-        cacheCanvas = new Canvas(cacheBitmap);		//创建第二层画布
 
+        cacheCanvas = new Canvas(cacheBitmap);		//创建一个新画布
         path = new Path();
         paint = new Paint(Paint.DITHER_FLAG);	//Paint.DITHER_FLAG 防抖动
         paint.setColor(Color.RED);				//设置默认的画笔颜色为红色
@@ -55,7 +56,7 @@ public class DrawView extends View {
         paint.setStyle(Paint.Style.STROKE);		//设置填充方式为描边
         paint.setStrokeJoin(Paint.Join.ROUND);	//设置笔刷的图形样式
         paint.setStrokeCap(Paint.Cap.ROUND);	//设置画笔转弯处的连接风格
-        paint.setStrokeWidth(10);				//设置默认笔触的宽度为1像素
+        paint.setStrokeWidth(1);				//设置默认笔触的宽度为1像素
         paint.setAntiAlias(true);				//设置抗锯齿功能
         paint.setDither(true);					//设置抖动效果
     }
@@ -65,13 +66,8 @@ public class DrawView extends View {
         super.onDraw(canvas);
         canvas.drawColor(0xffffff);				//设置背景颜色
         Paint bmpPaint = new Paint();			//采用默认设置创建一个画笔
-
-        if(BitmapProvider.isSet()) canvas.drawBitmap(BitmapProvider.getBitmap(), 0, 0, bmpPaint);
-
-        canvas.drawBitmap(cacheBitmap, 0, 0, bmpPaint);        //绘制cacheBitmap
-        //canvas.drawBitmap(cacheCacheBitmap, 0, 0, bmpPaint);		//绘制cacheBitmap
-        cacheCanvas.drawPath(path, paint);            //绘制路径
-
+        canvas.drawBitmap(cacheBitmap, 0, 0, bmpPaint);		//绘制cacheBitmap
+        canvas.drawPath(path, paint);			//绘制路径
         canvas.save(Canvas.ALL_SAVE_FLAG);		//保存canvas状态，最后所有的信息都会保存在第一个创建的Bitmap中
         canvas.restore();		//恢复canvas之前保存的状态，防止保存后对canvas执行的操作队后续的绘制有影响
 
@@ -109,23 +105,10 @@ public class DrawView extends View {
     /*
     设置背景
      */
-//    public void setBitmap(Bitmap bm){
-//        int bHeight = bm.getHeight();
-//        int bWidth = bm.getWidth();
-//        cacheCanvas.drawBitmap(bm,Math.abs((view_height-bHeight)/2),Math.abs((view_width-bWidth)/2),null);
-//        cacheCanvas.drawBitmap(bm,0,0,null);
-//    }
-
-    /*
-    重置
-     */
-    public void reset(){
-        if (!cacheBitmap.isRecycled()) {
-            cacheBitmap.recycle();
-        }
-        cacheBitmap = Bitmap.createBitmap(view_width, view_height, Config.ARGB_8888);
-        cacheCanvas = new Canvas(cacheBitmap);		//创建第二层画布
-        invalidate();		//更新视图
+    public void setBitmap(Bitmap bm){
+        //int bHeight = bm.getHeight();
+        //int bWidth = bm.getWidth();
+        cacheCanvas.drawBitmap(bm,0,0,null);
     }
 
     /*
@@ -160,20 +143,8 @@ public class DrawView extends View {
             File file = new File(sdDir.toString() + "/pictures/" + fileName + ".jpg");    //创建文件对象
             file.createNewFile();    //创建一个新文件
             FileOutputStream fileOS = new FileOutputStream(file);    //创建一个文件输出流对象
-
-            if(BitmapProvider.isSet()) {
-                Paint bmpPaint = new Paint();            //采用默认设置创建一个画笔
-                Bitmap newBitmap = Bitmap.createBitmap(view_width, view_height, Config.ARGB_8888);
-                Canvas newCanvas = new Canvas(newBitmap);
-                newCanvas.drawBitmap(BitmapProvider.getBitmap(), 0, 0, bmpPaint);
-                newCanvas.drawBitmap(cacheBitmap, 0, 0, bmpPaint);
-                newCanvas.save(Canvas.ALL_SAVE_FLAG);
-                newCanvas.restore();
-                newBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOS);
-            }else {
-                cacheBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOS);
-            }
-
+            //将绘图内容压缩为png格式输出到输出流对象中,其中100代表品质
+            cacheBitmap.compress(Bitmap.CompressFormat.JPEG, 50, fileOS);
             fileOS.flush();        //将缓冲区中的数据全部写出到输出流中
             fileOS.close();        //关闭文件输出流对象
 
