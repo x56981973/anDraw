@@ -4,24 +4,20 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.net.Uri;
-import android.graphics.Matrix;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 
 
@@ -61,6 +57,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private Button button1;
+    private Button button2;
     private Button.OnClickListener mainOnClickListener;
 
     @Override
@@ -68,7 +65,8 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        button1 = (Button)findViewById(R.id.button);
+        button1 = (Button)findViewById(R.id.button1);
+        button2 = (Button)findViewById(R.id.button2);
 
         mainOnClickListener = new Button.OnClickListener()
         {
@@ -80,13 +78,15 @@ public class MainActivity extends ActionBarActivity {
                     intent.setType("image/*");
                     intent.setAction(Intent.ACTION_GET_CONTENT);
                     startActivityForResult(intent,1);
-                }else{
-
+                }else if(v == button2){
+                    Intent intent = new Intent(MainActivity.this,DrawBlankActivity.class);
+                    startActivity(intent);
                 }
 
             }
         };
         button1.setOnClickListener(mainOnClickListener);
+        button2.setOnClickListener(mainOnClickListener);
     }
 
 
@@ -107,17 +107,18 @@ public class MainActivity extends ActionBarActivity {
                 int view_width = dm.widthPixels;
                 int view_height = dm.heightPixels;
 
-                int beh = (int)(options.outHeight / (float)view_height);
+                int beh = (int)Math.ceil(options.outHeight / (float)view_height);
                 if (beh <= 0)
                     beh = 1;
-                int bew = (int)(options.outWidth / (float)view_width);
+                int bew = (int)Math.ceil(options.outWidth / (float) view_width);
                 if (bew <= 0)
                     bew = 1;
                 options.inSampleSize = beh > bew? beh : bew;
                 bm = BitmapFactory.decodeStream(cr.openInputStream(uri),null,options);
                 BitmapProvider bitmapProvider = new BitmapProvider();
                 bitmapProvider.setBitmap(bm);
-                Intent intent = new Intent(MainActivity.this,DrawActivity.class);
+                bitmapProvider.flag = 1;
+                Intent intent = new Intent(MainActivity.this,DrawPicActivity.class);
                 startActivity(intent);
             }catch (FileNotFoundException e)
             {
