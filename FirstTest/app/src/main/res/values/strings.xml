@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name1">FirstTest</string>
-    <string name="app_name2">DrawView</string>
+    <string name="app_name1">MainActivity</string>
+    <string name="app_name2">DrawPicActivity</string>
+    <string name="app_name3">DrawBlankActivity</string>
+    <string name="action_settings">Setting</string>
 
-    <string name="action_settings">Settings</string>
 </resources>
