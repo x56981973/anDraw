@@ -13,9 +13,29 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import org.opencv.android.BaseLoaderCallback;
+import org.opencv.android.OpenCVLoader;
+
 
 public class DrawPicActivity extends ActionBarActivity {
     private DrawView dv;
+    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
+
+        @Override
+        public void onManagerConnected(int status) {
+            // TODO Auto-generated method stub
+            switch (status){
+                case BaseLoaderCallback.SUCCESS:
+                    Log.i("opencv", "成功加载");
+                    break;
+                default:
+                    super.onManagerConnected(status);
+                    Log.i("opencv", "加载失败");
+                    break;
+            }
+
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +72,15 @@ public class DrawPicActivity extends ActionBarActivity {
                 break;
             case R.id.clear:
                 dv.clear();                        //擦除绘图
+                break;
+            case R.id.fx_gray:
+                dv.procSrc2Gray();        //将图片转为灰度
+                break;
+            case R.id.fx_gauss:
+                dv.paint.setStrokeWidth(20);        //设置笔触的宽度为2像素
+                break;
+            case R.id.fx_bw:
+                dv.paint.setStrokeWidth(30);        //设置笔触的宽度为3像素
                 break;
             case R.id.reset:
                 dv.reset();
@@ -100,5 +129,11 @@ public class DrawPicActivity extends ActionBarActivity {
             return super.onKeyDown(keyCode, event);
         }
         return super.onKeyDown(keyCode, event);
+    }
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_2_4_3, this, mLoaderCallback);
     }
 }

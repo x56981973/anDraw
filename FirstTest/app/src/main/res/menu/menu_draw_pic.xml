@@ -20,6 +20,15 @@
         </menu>
     </item>
     <item android:id="@+id/clear" android:title="擦除"/>
+    <item android:title="效果">
+        <menu>
+            <group>
+                <item android:id="@+id/fx_gray" android:title="灰度"/>
+                <item android:id="@+id/fx_gauss" android:title="高斯模糊"/>
+                <item android:id="@+id/fx_bw" android:title="黑白"/>
+            </group>
+        </menu>
+    </item>
     <item android:id="@+id/reset" android:title="恢复"/>
     <item android:id="@+id/save" android:title="保存"/>
 
