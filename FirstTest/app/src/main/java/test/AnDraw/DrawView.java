@@ -7,6 +7,7 @@ package test.AnDraw;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -17,6 +18,11 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+
+import org.opencv.android.OpenCVLoader;
+import org.opencv.android.Utils;
+import org.opencv.core.Mat;
+import org.opencv.imgproc.Imgproc;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -38,7 +44,12 @@ public class DrawView extends View {
     public Paint paint = null;		//画笔
     Bitmap cacheBitmap = null;		//定义一个内存中的图片，该图片将作为缓冲区
     Canvas cacheCanvas = null;		//定义cacheBitmap上的Canvas对象
-
+    Bitmap fxBitmap = null;
+    static {
+        if (!OpenCVLoader.initDebug()) {
+            // Handle initialization error
+        }
+    }
     public DrawView(Context context, AttributeSet attrs) {
         super(context, attrs);
         //getDisplayMetrics()方法获取DisplayMetrics对象，用于获取屏幕信息
@@ -67,14 +78,14 @@ public class DrawView extends View {
         Paint bmpPaint = new Paint();			//采用默认设置创建一个画笔
 
         if(BitmapProvider.isSet()) canvas.drawBitmap(BitmapProvider.getBitmap(), 0, 0, bmpPaint);
-
+        if(fxBitmap != null) canvas.drawBitmap(fxBitmap, 0, 0, bmpPaint);
         canvas.drawBitmap(cacheBitmap, 0, 0, bmpPaint);        //绘制cacheBitmap
         //canvas.drawBitmap(cacheCacheBitmap, 0, 0, bmpPaint);		//绘制cacheBitmap
         cacheCanvas.drawPath(path, paint);            //绘制路径
 
         canvas.save(Canvas.ALL_SAVE_FLAG);		//保存canvas状态，最后所有的信息都会保存在第一个创建的Bitmap中
         canvas.restore();		//恢复canvas之前保存的状态，防止保存后对canvas执行的操作队后续的绘制有影响
-
+        Log.i("jason","ondraw called");
 
     }
 
@@ -135,6 +146,25 @@ public class DrawView extends View {
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));	//设置图形重叠时候的处理方式
         paint.setStrokeWidth(50);		//设置笔触的宽度
     }
+
+    public void procSrc2Gray(){
+        Mat rgbMat = new Mat();
+        Mat grayMat = new Mat();
+        Bitmap sourceBitmap = BitmapProvider.getBitmap();
+        Bitmap grayBitmap =  Bitmap.createBitmap(sourceBitmap.getWidth(), sourceBitmap.getHeight(), Config.RGB_565);
+        Utils.bitmapToMat(sourceBitmap, rgbMat);//convert original bitmap to Mat, R G B.
+        Imgproc.cvtColor(rgbMat, grayMat, Imgproc.COLOR_RGB2GRAY);//rgbMat to gray grayMat
+        Utils.matToBitmap(grayMat, grayBitmap); //convert mat to bitmap
+        fxBitmap = grayBitmap;
+        invalidate();
+        Log.i("jason", "procSrc2Gray sucess...");
+        try {
+            saveFxBitmap(grayBitmap);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //return grayBitmap;
+    }
     /*
      * 保存功能
      */
@@ -178,6 +208,33 @@ public class DrawView extends View {
             fileOS.close();        //关闭文件输出流对象
 
             String dir = sdDir.toString() + "/pictures/" + fileName + ".jpg";
+            Log.i("xzy",dir);
+            return dir;
+        }
+        return "";
+    }
+
+    public String saveFxBitmap(Bitmap bitmap) throws IOException {
+        boolean sdCardExist = android.os.Environment.getExternalStorageState()
+                .equals(android.os.Environment.MEDIA_MOUNTED);
+        //Log.i("xxx", android.os.Environment.getExternalStorageState());
+        if (sdCardExist) {
+            SimpleDateFormat s = new SimpleDateFormat("yyyyMMddhhmmss");
+            String fileName = s.format(new Date());
+
+            File sdDir = android.os.Environment.getExternalStorageDirectory();
+            File file = new File(sdDir.toString() + "/pictures/" + fileName + "_fx.jpg");    //创建文件对象
+            file.createNewFile();    //创建一个新文件
+            FileOutputStream fileOS = new FileOutputStream(file);    //创建一个文件输出流对象
+
+
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOS);
+
+
+            fileOS.flush();        //将缓冲区中的数据全部写出到输出流中
+            fileOS.close();        //关闭文件输出流对象
+
+            String dir = sdDir.toString() + "/pictures/" + fileName + "_fx.jpg";
             Log.i("xzy",dir);
             return dir;
         }
