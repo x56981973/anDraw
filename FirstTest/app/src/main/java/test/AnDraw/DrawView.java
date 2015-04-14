@@ -42,6 +42,7 @@ public class DrawView extends View {
     private float preY;				//起始点的y坐标
     private Path path;				//路径
     public Paint paint = null;		//画笔
+
     Bitmap cacheBitmap = null;		//定义一个内存中的图片，该图片将作为缓冲区
     Canvas cacheCanvas = null;		//定义cacheBitmap上的Canvas对象
     Bitmap fxBitmap = null;
@@ -66,9 +67,10 @@ public class DrawView extends View {
         paint.setStyle(Paint.Style.STROKE);		//设置填充方式为描边
         paint.setStrokeJoin(Paint.Join.ROUND);	//设置笔刷的图形样式
         paint.setStrokeCap(Paint.Cap.ROUND);	//设置画笔转弯处的连接风格
-        paint.setStrokeWidth(10);				//设置默认笔触的宽度为1像素
+        paint.setStrokeWidth(10);				//设置默认笔触的宽度为10像素
         paint.setAntiAlias(true);				//设置抗锯齿功能
         paint.setDither(true);					//设置抖动效果
+
     }
 
     @Override
@@ -120,17 +122,18 @@ public class DrawView extends View {
     /*
     设置背景
      */
-    public void setBackground(int color){
-        Bitmap bm = Bitmap.createBitmap(view_width, view_height, Config.ARGB_8888);
-        for(int i = 0; i < bm.getHeight();i++){
-            for(int j = 0; j <bm.getWidth(); j++){
-                bm.setPixel(j,i,color);
-            }
-        }
-
-        Paint bmpPaint = new Paint();
-        cacheCanvas.drawBitmap(bm,0,0,bmpPaint);
-    }
+//    public void setBackground(int color){
+//        Bitmap bm = Bitmap.createBitmap(view_width, view_height, Config.ARGB_8888);
+//        for(int i = 0; i < bm.getHeight();i++){
+//            for(int j = 0; j <bm.getWidth(); j++){
+//                bm.setPixel(j,i,color);
+//            }
+//        }
+//
+//        Paint bmpPaint = new Paint();
+//        cacheCanvas.drawBitmap(bm,0,0,bmpPaint);
+//        invalidate();
+//    }
 
     /*
     重置

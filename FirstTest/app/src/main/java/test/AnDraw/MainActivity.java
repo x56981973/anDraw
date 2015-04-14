@@ -79,6 +79,7 @@ public class MainActivity extends ActionBarActivity {
                     intent.setAction(Intent.ACTION_GET_CONTENT);
                     startActivityForResult(intent,1);
                 }else if(v == button2){
+
                     Intent intent = new Intent(MainActivity.this,DrawBlankActivity.class);
                     startActivity(intent);
                 }
@@ -107,10 +108,12 @@ public class MainActivity extends ActionBarActivity {
                 int view_width = dm.widthPixels;
                 int view_height = dm.heightPixels;
 
-                int beh = (int)Math.ceil(options.outHeight / (float)view_height);
+                //int beh = (int)Math.ceil(options.outHeight / (float)view_height);
+                int beh = (int)(options.outHeight / (float)view_height);
                 if (beh <= 0)
                     beh = 1;
-                int bew = (int)Math.ceil(options.outWidth / (float) view_width);
+                //int bew = (int)Math.ceil(options.outWidth / (float) view_width);
+                int bew = (int)(options.outWidth / (float) view_width);
                 if (bew <= 0)
                     bew = 1;
                 options.inSampleSize = beh > bew? beh : bew;
