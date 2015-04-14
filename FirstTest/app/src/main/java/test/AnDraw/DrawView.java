@@ -80,7 +80,7 @@ public class DrawView extends View {
         if(BitmapProvider.isSet()) canvas.drawBitmap(BitmapProvider.getBitmap(), 0, 0, bmpPaint);
         if(fxBitmap != null) canvas.drawBitmap(fxBitmap, 0, 0, bmpPaint);
         canvas.drawBitmap(cacheBitmap, 0, 0, bmpPaint);        //绘制cacheBitmap
-        //canvas.drawBitmap(cacheCacheBitmap, 0, 0, bmpPaint);		//绘制cacheBitmap
+
         cacheCanvas.drawPath(path, paint);            //绘制路径
 
         canvas.save(Canvas.ALL_SAVE_FLAG);		//保存canvas状态，最后所有的信息都会保存在第一个创建的Bitmap中
@@ -120,12 +120,17 @@ public class DrawView extends View {
     /*
     设置背景
      */
-//    public void setBitmap(Bitmap bm){
-//        int bHeight = bm.getHeight();
-//        int bWidth = bm.getWidth();
-//        cacheCanvas.drawBitmap(bm,Math.abs((view_height-bHeight)/2),Math.abs((view_width-bWidth)/2),null);
-//        cacheCanvas.drawBitmap(bm,0,0,null);
-//    }
+    public void setBackground(int color){
+        Bitmap bm = Bitmap.createBitmap(view_width, view_height, Config.ARGB_8888);
+        for(int i = 0; i < bm.getHeight();i++){
+            for(int j = 0; j <bm.getWidth(); j++){
+                bm.setPixel(j,i,color);
+            }
+        }
+
+        Paint bmpPaint = new Paint();
+        cacheCanvas.drawBitmap(bm,0,0,bmpPaint);
+    }
 
     /*
     重置
@@ -144,7 +149,7 @@ public class DrawView extends View {
      */
     public void clear(){
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));	//设置图形重叠时候的处理方式
-        paint.setStrokeWidth(50);		//设置笔触的宽度
+        //paint.setStrokeWidth(50);
     }
 
     public void procSrc2Gray(){

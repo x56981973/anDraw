@@ -12,5 +12,9 @@ public class BitmapProvider {
     public static Bitmap getBitmap(){ return bitmap;}
     public static void setBitmap(Bitmap bm) {bitmap = bm;}
     public static boolean isSet() {return flag == 1;}
-    public static void destroy() {bitmap.recycle();flag = 0;}
+    public static void destroy() {
+        if(!bitmap.isRecycled())
+            bitmap.recycle();
+        flag = 0;
+    }
 }

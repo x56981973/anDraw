@@ -47,7 +47,7 @@ public class DrawPicActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         dv.paint.setXfermode(null);        //取消擦除效果
-        dv.paint.setStrokeWidth(10);        //初始化笔的宽度
+        //dv.paint.setStrokeWidth(10);        //初始化笔的宽度
         switch (item.getItemId()) {
             case R.id.color_red:
                 dv.paint.setColor(Color.RED);        //设置画笔的颜色为红色
