@@ -37,8 +37,8 @@ public class DrawBlankActivity extends ActionBarActivity {
                 dv.paint.setColor(Color.BLACK);        //设置画笔的颜色为黑色
                 item.setChecked(true);
                 break;
-            case R.id.color_blue:
-                dv.paint.setColor(Color.BLUE);        //设置画笔的颜色为蓝色
+            case R.id.color_white:
+                dv.paint.setColor(Color.WHITE);        //设置画笔的颜色为蓝色
                 item.setChecked(true);
                 break;
             case R.id.width_1:

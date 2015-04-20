@@ -49,26 +49,26 @@ public class DrawPicActivity extends ActionBarActivity {
         dv.paint.setXfermode(null);        //取消擦除效果
         dv.paint.setStrokeWidth(10);        //初始化笔的宽度
         switch (item.getItemId()) {
+            case R.id.color_white:
+                dv.paint.setColor(Color.WHITE);
+                item.setChecked(true);
+                break;
+            case R.id.color_black:
+                dv.paint.setColor(Color.BLACK);
+                item.setChecked(true);
+                break;
             case R.id.color_red:
-                dv.paint.setColor(Color.RED);        //设置画笔的颜色为红色
-                item.setChecked(true);
-                break;
-            case R.id.color_green:
-                dv.paint.setColor(Color.GREEN);        //设置画笔的颜色为绿色
-                item.setChecked(true);
-                break;
-            case R.id.color_blue:
-                dv.paint.setColor(Color.BLUE);        //设置画笔的颜色为蓝色
+                dv.paint.setColor(Color.RED);
                 item.setChecked(true);
                 break;
             case R.id.width_1:
-                dv.paint.setStrokeWidth(10);        //设置笔触的宽度为1像素
+                dv.paint.setStrokeWidth(10);        //设置笔触的宽度为10像素
                 break;
             case R.id.width_2:
-                dv.paint.setStrokeWidth(20);        //设置笔触的宽度为2像素
+                dv.paint.setStrokeWidth(20);        //设置笔触的宽度为20像素
                 break;
             case R.id.width_3:
-                dv.paint.setStrokeWidth(30);        //设置笔触的宽度为3像素
+                dv.paint.setStrokeWidth(30);        //设置笔触的宽度为30像素
                 break;
             case R.id.clear:
                 dv.clear();                        //擦除绘图

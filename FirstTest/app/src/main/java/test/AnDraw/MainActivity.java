@@ -92,7 +92,6 @@ public class MainActivity extends ActionBarActivity {
                 }else if(v == button2){
                     new AlertDialog.Builder(MainActivity.this)
                     .setTitle("请选择背景颜色")
-                    .setIcon(android.R.drawable.ic_dialog_info)
                     .setItems(background,new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
