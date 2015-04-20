@@ -152,7 +152,7 @@ public class DrawView extends View {
      */
     public void clear(){
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));	//设置图形重叠时候的处理方式
-        //paint.setStrokeWidth(50);
+        paint.setStrokeWidth(50);
     }
 
     public void procSrc2Gray(){

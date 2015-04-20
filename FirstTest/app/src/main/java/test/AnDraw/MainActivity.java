@@ -1,7 +1,10 @@
 package test.AnDraw;
 
+import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -59,11 +62,19 @@ public class MainActivity extends ActionBarActivity {
     private Button button1;
     private Button button2;
     private Button.OnClickListener mainOnClickListener;
+    private String  background[] = new String[] {"白色","黑色","红色","蓝色"};
+    private  int view_width;
+    private  int view_height;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        DisplayMetrics  dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        view_width = dm.widthPixels;
+        view_height = dm.heightPixels;
 
         button1 = (Button)findViewById(R.id.button1);
         button2 = (Button)findViewById(R.id.button2);
@@ -79,9 +90,22 @@ public class MainActivity extends ActionBarActivity {
                     intent.setAction(Intent.ACTION_GET_CONTENT);
                     startActivityForResult(intent,1);
                 }else if(v == button2){
+                    new AlertDialog.Builder(MainActivity.this)
+                    .setTitle("请选择背景颜色")
+                    .setIcon(android.R.drawable.ic_dialog_info)
+                    .setItems(background,new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Log.i("xxxxxxx",String.valueOf(which));
+                            makeBackground(which);
 
-                    Intent intent = new Intent(MainActivity.this,DrawBlankActivity.class);
-                    startActivity(intent);
+                            Intent intent = new Intent(MainActivity.this,DrawBlankActivity.class);
+                            startActivity(intent);
+                        }
+                    })
+                    .setNegativeButton("取消", null)
+                    .show();
+
                 }
 
             }
@@ -90,6 +114,23 @@ public class MainActivity extends ActionBarActivity {
         button2.setOnClickListener(mainOnClickListener);
     }
 
+    private void makeBackground(int color){
+        Resources res = getResources();
+        Bitmap temp;
+        switch (color)
+        {
+            case 0: temp = BitmapFactory.decodeResource(res, R.drawable.white);break;
+            case 1: temp = BitmapFactory.decodeResource(res, R.drawable.black);break;
+            case 2: temp = BitmapFactory.decodeResource(res, R.drawable.red);break;
+            case 3: temp = BitmapFactory.decodeResource(res, R.drawable.blue);break;
+            default: temp = BitmapFactory.decodeResource(res, R.drawable.white);break;
+        }
+        Bitmap bm;
+        bm = Bitmap.createBitmap(temp,0,0,view_width,view_height);
+        BitmapProvider bitmapProvider = new BitmapProvider();
+        bitmapProvider.setBitmap(bm);
+        temp.recycle();
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -103,24 +144,17 @@ public class MainActivity extends ActionBarActivity {
                 Bitmap bm = BitmapFactory.decodeStream(cr.openInputStream(uri),null,options);
                 options.inJustDecodeBounds = false;
                 //计算缩放比
-                DisplayMetrics  dm = new DisplayMetrics();
-                getWindowManager().getDefaultDisplay().getMetrics(dm);
-                int view_width = dm.widthPixels;
-                int view_height = dm.heightPixels;
-
-                //int beh = (int)Math.ceil(options.outHeight / (float)view_height);
                 int beh = (int)(options.outHeight / (float)view_height);
                 if (beh <= 0)
                     beh = 1;
-                //int bew = (int)Math.ceil(options.outWidth / (float) view_width);
                 int bew = (int)(options.outWidth / (float) view_width);
                 if (bew <= 0)
                     bew = 1;
                 options.inSampleSize = beh > bew? beh : bew;
                 bm = BitmapFactory.decodeStream(cr.openInputStream(uri),null,options);
+
                 BitmapProvider bitmapProvider = new BitmapProvider();
                 bitmapProvider.setBitmap(bm);
-                bitmapProvider.flag = 1;
                 Intent intent = new Intent(MainActivity.this,DrawPicActivity.class);
                 startActivity(intent);
             }catch (FileNotFoundException e)

@@ -10,7 +10,7 @@ public class BitmapProvider {
     public static int flag = 0;
 
     public static Bitmap getBitmap(){ return bitmap;}
-    public static void setBitmap(Bitmap bm) {bitmap = bm;}
+    public static void setBitmap(Bitmap bm) {bitmap = bm;flag = 1;}
     public static boolean isSet() {return flag == 1;}
     public static void destroy() {
         if(!bitmap.isRecycled())

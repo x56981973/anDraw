@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -26,7 +27,7 @@ public class DrawBlankActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         dv.paint.setXfermode(null);        //取消擦除效果
-        //dv.paint.setStrokeWidth(10);        //初始化笔的宽度
+        dv.paint.setStrokeWidth(10);        //初始化笔的宽度
         switch (item.getItemId()) {
             case R.id.color_red:
                 dv.paint.setColor(Color.RED);        //设置画笔的颜色为红色
@@ -93,5 +94,14 @@ public class DrawBlankActivity extends ActionBarActivity {
             }
         });
         alert.show();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event){
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            BitmapProvider.destroy();
+            return super.onKeyDown(keyCode, event);
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
