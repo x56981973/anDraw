@@ -22,6 +22,7 @@ public class DrawBlankActivity extends ActionBarActivity {
         setContentView(R.layout.activity_draw_blank);
 
         dv = (DrawView)findViewById(R.id.drawView_blank);
+
     }
 
     @Override

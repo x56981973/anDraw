@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -92,13 +93,13 @@ public class MainActivity extends ActionBarActivity {
                 }else if(v == button2){
                     new AlertDialog.Builder(MainActivity.this)
                     .setTitle("请选择背景颜色")
-                    .setItems(background,new DialogInterface.OnClickListener() {
+                    .setItems(background, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Log.i("xxxxxxx",String.valueOf(which));
+                            Log.i("xxxxxxx", String.valueOf(which));
                             makeBackground(which);
 
-                            Intent intent = new Intent(MainActivity.this,DrawBlankActivity.class);
+                            Intent intent = new Intent(MainActivity.this, DrawBlankActivity.class);
                             startActivity(intent);
                         }
                     })
@@ -113,16 +114,22 @@ public class MainActivity extends ActionBarActivity {
         button2.setOnClickListener(mainOnClickListener);
     }
 
+    public Bitmap readBitmap(int id){
+        BitmapFactory.Options opt = new BitmapFactory.Options();
+        opt.inPreferredConfig=Bitmap.Config.RGB_565;//表示16位位图 565代表对应三原色占的位数
+        InputStream is = getResources().openRawResource(id);
+        return BitmapFactory.decodeStream(is, null, opt);
+    }
+
     private void makeBackground(int color){
-        Resources res = getResources();
         Bitmap temp;
         switch (color)
         {
-            case 0: temp = BitmapFactory.decodeResource(res, R.drawable.white);break;
-            case 1: temp = BitmapFactory.decodeResource(res, R.drawable.black);break;
-            case 2: temp = BitmapFactory.decodeResource(res, R.drawable.red);break;
-            case 3: temp = BitmapFactory.decodeResource(res, R.drawable.blue);break;
-            default: temp = BitmapFactory.decodeResource(res, R.drawable.white);break;
+            case 0: temp = readBitmap( R.drawable.white);break;
+            case 1: temp = readBitmap( R.drawable.black);break;
+            case 2: temp = readBitmap( R.drawable.red);break;
+            case 3: temp = readBitmap( R.drawable.blue);break;
+            default: temp = readBitmap( R.drawable.white);break;
         }
         Bitmap bm;
         bm = Bitmap.createBitmap(temp,0,0,view_width,view_height);
