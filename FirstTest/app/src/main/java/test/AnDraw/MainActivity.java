@@ -77,6 +77,13 @@ public class MainActivity extends ActionBarActivity {
         view_width = dm.widthPixels;
         view_height = dm.heightPixels;
 
+        //int actionBarHeight = getActionBar().getHeight();
+        //Log.i("xxx",String.valueOf(actionBarHeight));
+
+        BitmapProvider bitmapProvider = new BitmapProvider();
+        bitmapProvider.width = view_width;
+        bitmapProvider.height = view_height;
+
         button1 = (Button)findViewById(R.id.button1);
         button2 = (Button)findViewById(R.id.button2);
 
@@ -96,7 +103,7 @@ public class MainActivity extends ActionBarActivity {
                     .setItems(background, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Log.i("xxxxxxx", String.valueOf(which));
+                            Log.i("xxx", String.valueOf(which));
                             makeBackground(which);
 
                             Intent intent = new Intent(MainActivity.this, DrawBlankActivity.class);
