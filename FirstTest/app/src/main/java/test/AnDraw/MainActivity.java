@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,11 +19,20 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+
+import static java.lang.Thread.sleep;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -66,12 +76,15 @@ public class MainActivity extends ActionBarActivity {
     private String  background[] = new String[] {"白色","黑色","红色","蓝色"};
     private  int view_width;
     private  int view_height;
+    private ImageView iconView;
+    private LinearLayout blankView,containerView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getSupportActionBar().hide();
         DisplayMetrics  dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         view_width = dm.widthPixels;
@@ -119,6 +132,13 @@ public class MainActivity extends ActionBarActivity {
         };
         button1.setOnClickListener(mainOnClickListener);
         button2.setOnClickListener(mainOnClickListener);
+
+        blankView = (LinearLayout) findViewById(R.id.blank_main);
+        containerView = (LinearLayout) findViewById(R.id.container_main);
+        containerView.setVisibility(View.INVISIBLE);
+
+        animProcess();
+
     }
 
     public Bitmap readBitmap(int id){
@@ -126,6 +146,48 @@ public class MainActivity extends ActionBarActivity {
         opt.inPreferredConfig=Bitmap.Config.RGB_565;//表示16位位图 565代表对应三原色占的位数
         InputStream is = getResources().openRawResource(id);
         return BitmapFactory.decodeStream(is, null, opt);
+    }
+
+    private void animProcess(){
+
+        final AlphaAnimation loadAnim1 = new AlphaAnimation(0,1);
+        loadAnim1.setDuration(1200);
+        TranslateAnimation loadAnim2 = new TranslateAnimation(0,0,100,0);
+        loadAnim2.setDuration(800);
+        iconView = (ImageView) findViewById(R.id.icon_main);
+
+        final TranslateAnimation mHiddenAction = new TranslateAnimation(0,0,100,0);
+        mHiddenAction.setDuration(2500);
+
+//        loadAnimSet.addAnimation(loadAnim2);
+
+
+
+
+//        blankView.setAnimation(mHiddenAction);
+//        blankView.setVisibility(View.GONE);
+        new AsyncTask<Void,Void,Void>(){
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                AnimationSet loadAnimSet = new AnimationSet(MainActivity.this, null);
+                loadAnimSet.addAnimation(loadAnim1);
+                iconView.startAnimation(loadAnimSet);
+                try {
+                    sleep(800);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                containerView.startAnimation(mHiddenAction);
+                containerView.setVisibility(View.VISIBLE);
+            }
+        }.execute();
     }
 
     private void makeBackground(int color){
