@@ -9,5 +9,27 @@
         android:layout_height="fill_parent"
         android:layout_gravity="center_horizontal|center_vertical|center"
         />
+    <test.AnDraw.DrawView
+        android:id="@+id/drawView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center_horizontal|center_vertical|center"
+        />
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:sat="http://schemas.android.com/apk/res/android.view.ext"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
 
+        <android.view.ext.SatelliteMenu
+            android:id="@+id/menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|left"
+            android:layout_margin="8dp"
+
+            />
+
+    </FrameLayout>
 </RelativeLayout>

@@ -12,9 +12,14 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ext.SatelliteMenu;
+import android.view.ext.SatelliteMenuItem;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.OpenCVLoader;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class DrawPicActivity extends ActionBarActivity {
@@ -40,8 +45,10 @@ public class DrawPicActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_draw_pic);
-
+        getSupportActionBar().hide();
         dv = (DrawView)findViewById(R.id.drawView);
+
+        initMenu();
     }
 
     @Override
@@ -136,4 +143,25 @@ public class DrawPicActivity extends ActionBarActivity {
         super.onResume();
         OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_2_4_3, this, mLoaderCallback);
     }
+
+    void initMenu(){
+        SatelliteMenu menu = (SatelliteMenu) findViewById(R.id.menu);
+        List<SatelliteMenuItem> items = new ArrayList<SatelliteMenuItem>();
+
+        items.add(new SatelliteMenuItem(4, R.drawable.ic_save));
+        items.add(new SatelliteMenuItem(4, R.drawable.ic_reset));
+        items.add(new SatelliteMenuItem(3, R.drawable.ic_eraser));
+        items.add(new SatelliteMenuItem(2, R.drawable.ic_thickness));
+        items.add(new SatelliteMenuItem(1, R.drawable.ic_color));
+
+        menu.addItems(items);
+        menu.setOnItemClickedListener(new SatelliteMenu.SateliteClickedListener(){
+
+            @Override
+            public void eventOccured(int id) {
+
+            }
+        });
+    }
+
 }
