@@ -87,7 +87,7 @@ public class DrawView extends View {
 
         canvas.save(Canvas.ALL_SAVE_FLAG);		//保存canvas状态，最后所有的信息都会保存在第一个创建的Bitmap中
         canvas.restore();		//恢复canvas之前保存的状态，防止保存后对canvas执行的操作队后续的绘制有影响
-        Log.i("jason","ondraw called");
+//        Log.i("jason","ondraw called");
 
     }
 
