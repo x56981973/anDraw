@@ -40,7 +40,7 @@
                 android:id="@+id/btn_pic"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="40dp"
+                android:layout_marginRight="60dp"
                 android:background="@drawable/btn_round_rect" />
 
             <Button
@@ -49,8 +49,8 @@
                 android:text="@string/btn_blank"
                 android:id="@+id/btn_blank"
                 android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="40dp"
+                android:layout_marginTop="-10dp"
+                android:layout_marginLeft="60dp"
                 android:background="@drawable/btn_round_rect"/>
             <Button
                 android:layout_width="100dp"
@@ -58,8 +58,8 @@
                 android:id="@+id/btn_about"
                 android:layout_gravity="center"
                 android:text="@string/btn_about"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="40dp"
+                android:layout_marginTop="-10dp"
+                android:layout_marginRight="60dp"
                 android:background="@drawable/btn_round_rect"
                 />
             <Button
@@ -68,8 +68,8 @@
                 android:id="@+id/btn_update"
                 android:layout_gravity="center"
                 android:text="@string/btn_update"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="40dp"
+                android:layout_marginTop="-10dp"
+                android:layout_marginLeft="60dp"
                 android:background="@drawable/btn_round_rect"
                 />
         </LinearLayout>
@@ -87,6 +87,11 @@
         <!--android:layout_gravity="center|top">-->
 
     <!--</LinearLayout>-->
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/string_ver"
+        android:textColor="@color/yellow_btn"
+        android:layout_gravity="center_horizontal|bottom" />
 
 </FrameLayout>

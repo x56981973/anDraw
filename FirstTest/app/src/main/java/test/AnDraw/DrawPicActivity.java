@@ -152,9 +152,10 @@ public class DrawPicActivity extends ActionBarActivity {
         final SatelliteMenu menu = (SatelliteMenu) findViewById(R.id.menu);
         final List<SatelliteMenuItem> itemsLevelOne = new ArrayList<SatelliteMenuItem>();
 
-        itemsLevelOne.add(new SatelliteMenuItem(5, R.drawable.ic_save));
-        itemsLevelOne.add(new SatelliteMenuItem(4, R.drawable.ic_reset));
-        itemsLevelOne.add(new SatelliteMenuItem(3, R.drawable.ic_eraser));
+        itemsLevelOne.add(new SatelliteMenuItem(6, R.drawable.ic_save));
+        itemsLevelOne.add(new SatelliteMenuItem(5, R.drawable.ic_reset));
+        itemsLevelOne.add(new SatelliteMenuItem(4, R.drawable.ic_eraser));
+        itemsLevelOne.add(new SatelliteMenuItem(3, R.drawable.ic_effect));
         itemsLevelOne.add(new SatelliteMenuItem(2, R.drawable.ic_thickness));
         itemsLevelOne.add(new SatelliteMenuItem(1, R.drawable.ic_color));
 
@@ -185,13 +186,16 @@ public class DrawPicActivity extends ActionBarActivity {
 
                             break;
                         case 3:
+                            menuLevel = 3;
+                            break;
+                        case 4:
                             Log.i("onclick", " clear");
                             dv.clear();
                             break;
-                        case 4:
+                        case 5:
                             dv.reset();
                             break;
-                        case 5:
+                        case 6:
                             String dir = dv.save();            //保存绘图
                             showDialog(dir);
                             break;
@@ -220,11 +224,10 @@ public class DrawPicActivity extends ActionBarActivity {
                             menuLevel = 0;
                             break;
                     }
-                }else {
+                }else if(menuLevel == 2){
                     dv.paint.setStrokeWidth(10);        //初始化笔的宽度
                     switch (id) {
                         case 1:
-
                             dv.paint.setStrokeWidth(10);        //设置笔触的宽度为10像素
                             menuLevel = 0;
                             break;
@@ -235,9 +238,25 @@ public class DrawPicActivity extends ActionBarActivity {
                         case 3:
                             dv.paint.setStrokeWidth(30);        //设置笔触的宽度为30像素
                             menuLevel = 0;
-
                             break;
-
+                        default:
+                            menuLevel = 0;
+                            break;
+                    }
+                }else{
+                    switch (id) {
+                        case 1:
+                            dv.procSrc2Gray();        //灰度
+                            menuLevel = 0;
+                            break;
+                        case 2:
+                            dv.procGauss();        //高斯
+                            menuLevel = 0;
+                            break;
+                        case 3:
+                            dv.procCanny();      //边缘
+                            menuLevel = 0;
+                            break;
                         default:
                             menuLevel = 0;
                             break;
@@ -259,10 +278,12 @@ public class DrawPicActivity extends ActionBarActivity {
         final List<SatelliteMenuItem> itemsLevelTwoColor = new ArrayList<SatelliteMenuItem>();
         final List<SatelliteMenuItem> itemsLevelTwoThickness = new ArrayList<SatelliteMenuItem>();
         final List<SatelliteMenuItem> itemsLevelOne = new ArrayList<SatelliteMenuItem>();
+        final List<SatelliteMenuItem> itemsLevelThree = new ArrayList<SatelliteMenuItem>();
 
-        itemsLevelOne.add(new SatelliteMenuItem(5, R.drawable.ic_save));
-        itemsLevelOne.add(new SatelliteMenuItem(4, R.drawable.ic_reset));
-        itemsLevelOne.add(new SatelliteMenuItem(3, R.drawable.ic_eraser));
+        itemsLevelOne.add(new SatelliteMenuItem(6, R.drawable.ic_save));
+        itemsLevelOne.add(new SatelliteMenuItem(5, R.drawable.ic_reset));
+        itemsLevelOne.add(new SatelliteMenuItem(4, R.drawable.ic_eraser));
+        itemsLevelOne.add(new SatelliteMenuItem(3, R.drawable.ic_effect));
         itemsLevelOne.add(new SatelliteMenuItem(2, R.drawable.ic_thickness));
         itemsLevelOne.add(new SatelliteMenuItem(1, R.drawable.ic_color));
 
@@ -274,6 +295,10 @@ public class DrawPicActivity extends ActionBarActivity {
         itemsLevelTwoThickness.add(new SatelliteMenuItem(1,R.drawable.ic_thickness_1));
         itemsLevelTwoThickness.add(new SatelliteMenuItem(2, R.drawable.ic_thickness_2));
         itemsLevelTwoThickness.add(new SatelliteMenuItem(3, R.drawable.ic_thickness_3));
+
+        itemsLevelThree.add(new SatelliteMenuItem(1, R.drawable.ic_effect_gray));
+        itemsLevelThree.add(new SatelliteMenuItem(2, R.drawable.ic_effect_gauss));
+        itemsLevelThree.add(new SatelliteMenuItem(3, R.drawable.ic_effect_edge));
 
         menu.clearMenu();
 //                menu.removeAllViews();
@@ -287,6 +312,10 @@ public class DrawPicActivity extends ActionBarActivity {
                 break;
             case 2:
                 menu.addItems(itemsLevelTwoThickness);
+                menu.expand();
+                break;
+            case 3:
+                menu.addItems(itemsLevelThree);
                 menu.expand();
                 break;
             default:

@@ -22,4 +22,5 @@
     <string name="btn_back_about">返回</string>
     <string name="btn_contact_about">联系我们</string>
 
+    <string name="string_ver">版本：1.0  Copeyright 2015 The Olds</string>
 </resources>
