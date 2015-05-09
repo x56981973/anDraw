@@ -3,5 +3,23 @@
     <string name="app_name2">DrawPicActivity</string>
     <string name="app_name3">DrawBlankActivity</string>
     <string name="action_settings">Setting</string>
+    <string name="btn_blank">空画布</string>
+    <string name="btn_pic">打开图片</string>
+    <string name="btn_about">关于</string>
+    <string name="btn_update">升级</string>
+    <string name="title_activity_about">AboutActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="url_ver_update"> </string>
+    <string name="url_file_update"> </string>
+    <string name="string_available_update">有新更新</string>
+    <string name="string_unavailable_update">已是最新版</string>
+    <string name="string_yes_update">是</string>
+    <string name="string_no_update">否</string>
+
+    <string name="string_about">关于</string>
+    <string name="string_info_about">AnDraw致力于提供一个绘图与照片编辑的轻量级app。将基本的笔刷功能和简单的调色功能结合在一起，可以迅速记录当前的想法，也可以随手编辑照片。目前软件仍在测试阶段，如有问题请点击“联系我们”。</string>
+    <string name="btn_back_about">返回</string>
+    <string name="btn_contact_about">联系我们</string>
 
 </resources>

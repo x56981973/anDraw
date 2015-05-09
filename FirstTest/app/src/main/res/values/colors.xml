@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="orange_bg">#F7912E</color>
+    <color name="blue_bg">#548BFE</color>
+    <color name="blue_btn">#ffa0bcfe</color>
+    <color name="yellow_btn">#DED329</color>
+    <color name="yellow_btn_pressed">#deda59</color>
+    <color name="yellow_text">#ffdedeb9</color>
 </resources>

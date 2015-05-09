@@ -24,6 +24,8 @@ import java.util.List;
 
 public class DrawPicActivity extends ActionBarActivity {
     private DrawView dv;
+    private SatelliteMenu.SateliteClickedListener menuListener;
+    private int menuLevel;
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
 
         @Override
@@ -113,7 +115,7 @@ public class DrawPicActivity extends ActionBarActivity {
         alert.setTitle("提示");
         alert.setMessage("图片已保存到" + dir);
         //Log.i("xxx","xxx");
-        alert.setPositiveButton("打开",new DialogInterface.OnClickListener() {
+        alert.setPositiveButton("打开", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -121,7 +123,7 @@ public class DrawPicActivity extends ActionBarActivity {
                 startActivity(intent);
             }
         });
-        alert.setNegativeButton("关闭",new DialogInterface.OnClickListener() {
+        alert.setNegativeButton("关闭", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
             }
@@ -144,24 +146,152 @@ public class DrawPicActivity extends ActionBarActivity {
         OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_2_4_3, this, mLoaderCallback);
     }
 
+
     void initMenu(){
-        SatelliteMenu menu = (SatelliteMenu) findViewById(R.id.menu);
-        List<SatelliteMenuItem> items = new ArrayList<SatelliteMenuItem>();
+        menuLevel = 0;
+        final SatelliteMenu menu = (SatelliteMenu) findViewById(R.id.menu);
+        final List<SatelliteMenuItem> itemsLevelOne = new ArrayList<SatelliteMenuItem>();
 
-        items.add(new SatelliteMenuItem(4, R.drawable.ic_save));
-        items.add(new SatelliteMenuItem(4, R.drawable.ic_reset));
-        items.add(new SatelliteMenuItem(3, R.drawable.ic_eraser));
-        items.add(new SatelliteMenuItem(2, R.drawable.ic_thickness));
-        items.add(new SatelliteMenuItem(1, R.drawable.ic_color));
+        itemsLevelOne.add(new SatelliteMenuItem(5, R.drawable.ic_save));
+        itemsLevelOne.add(new SatelliteMenuItem(4, R.drawable.ic_reset));
+        itemsLevelOne.add(new SatelliteMenuItem(3, R.drawable.ic_eraser));
+        itemsLevelOne.add(new SatelliteMenuItem(2, R.drawable.ic_thickness));
+        itemsLevelOne.add(new SatelliteMenuItem(1, R.drawable.ic_color));
 
-        menu.addItems(items);
-        menu.setOnItemClickedListener(new SatelliteMenu.SateliteClickedListener(){
+
+
+        menu.setSatelliteDistance(400);
+        menu.addItems(itemsLevelOne);
+
+
+        menuListener = new SatelliteMenu.SateliteClickedListener(){
 
             @Override
             public void eventOccured(int id) {
 
+                Log.i("onclick", String.valueOf(id));
+                if(menuLevel == 0){
+                    dv.paint.setXfermode(null);        //取消擦除效果
+
+                    switch (id){
+                        case 1:
+                            Log.i("onclick", " color");
+                            menuLevel = 1;
+
+                            break;
+                        case 2:
+
+                            menuLevel = 2;
+
+                            break;
+                        case 3:
+                            Log.i("onclick", " clear");
+                            dv.clear();
+                            break;
+                        case 4:
+                            dv.reset();
+                            break;
+                        case 5:
+                            String dir = dv.save();            //保存绘图
+                            showDialog(dir);
+                            break;
+                        default:break;
+                    }
+                }else if(menuLevel == 1){
+                    Log.i("onclick level 1", String.valueOf(id));
+                    switch (id){
+                        case 1:
+                            dv.paint.setColor(Color.RED);        //设置画笔的颜色为红色
+                            menuLevel = 0;
+                            break;
+                        case 2:
+                            dv.paint.setColor(Color.GREEN);        //设置画笔的颜色为红色
+                            menuLevel = 0;
+                            break;
+                        case 3:
+                            dv.paint.setColor(Color.BLUE);        //设置画笔的颜色为红色
+                            menuLevel = 0;
+                            break;
+                        case 4:
+                            dv.paint.setColor(Color.BLACK);        //设置画笔的颜色为红色
+                            menuLevel = 0;
+                            break;
+                        default:
+                            menuLevel = 0;
+                            break;
+                    }
+                }else {
+                    dv.paint.setStrokeWidth(10);        //初始化笔的宽度
+                    switch (id) {
+                        case 1:
+
+                            dv.paint.setStrokeWidth(10);        //设置笔触的宽度为10像素
+                            menuLevel = 0;
+                            break;
+                        case 2:
+                            dv.paint.setStrokeWidth(20);        //设置笔触的宽度为20像素
+                            menuLevel = 0;
+                            break;
+                        case 3:
+                            dv.paint.setStrokeWidth(30);        //设置笔触的宽度为30像素
+                            menuLevel = 0;
+
+                            break;
+
+                        default:
+                            menuLevel = 0;
+                            break;
+                    }
+                }
+
+                RefreshMenu(menu);
+
             }
-        });
+        };
+        menu.setOnItemClickedListener(menuListener);
+
+
     }
 
+    void RefreshMenu(SatelliteMenu menu){
+        Log.i("onclick level 1", "call on click");
+
+        final List<SatelliteMenuItem> itemsLevelTwoColor = new ArrayList<SatelliteMenuItem>();
+        final List<SatelliteMenuItem> itemsLevelTwoThickness = new ArrayList<SatelliteMenuItem>();
+        final List<SatelliteMenuItem> itemsLevelOne = new ArrayList<SatelliteMenuItem>();
+
+        itemsLevelOne.add(new SatelliteMenuItem(5, R.drawable.ic_save));
+        itemsLevelOne.add(new SatelliteMenuItem(4, R.drawable.ic_reset));
+        itemsLevelOne.add(new SatelliteMenuItem(3, R.drawable.ic_eraser));
+        itemsLevelOne.add(new SatelliteMenuItem(2, R.drawable.ic_thickness));
+        itemsLevelOne.add(new SatelliteMenuItem(1, R.drawable.ic_color));
+
+        itemsLevelTwoColor.add(new SatelliteMenuItem(1,R.drawable.ic_color_red));
+        itemsLevelTwoColor.add(new SatelliteMenuItem(2,R.drawable.ic_color_green));
+        itemsLevelTwoColor.add(new SatelliteMenuItem(3,R.drawable.ic_color_blue));
+        itemsLevelTwoColor.add(new SatelliteMenuItem(4,R.drawable.ic_color_black));
+
+        itemsLevelTwoThickness.add(new SatelliteMenuItem(1,R.drawable.ic_thickness_1));
+        itemsLevelTwoThickness.add(new SatelliteMenuItem(2, R.drawable.ic_thickness_2));
+        itemsLevelTwoThickness.add(new SatelliteMenuItem(3, R.drawable.ic_thickness_3));
+
+        menu.clearMenu();
+//                menu.removeAllViews();
+        switch (menuLevel){
+            case 0:
+                menu.addItems(itemsLevelOne);
+                break;
+            case 1:
+                menu.addItems(itemsLevelTwoColor);
+                menu.expand();
+                break;
+            case 2:
+                menu.addItems(itemsLevelTwoThickness);
+                menu.expand();
+                break;
+            default:
+                menu.addItems(itemsLevelOne);
+                break;
+        }
+    }
 }

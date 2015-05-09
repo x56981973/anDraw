@@ -1,23 +1,17 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" tools:context=".MainActivity"
     >
+
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"
         android:background="@color/orange_bg"
+        >
 
- >
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:orientation="vertical"
-            android:id="@+id/blank_main">
-
-        </LinearLayout>
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -28,11 +22,11 @@
             <ImageView
                 android:id="@+id/icon_main"
                 android:layout_gravity="top|center"
-                android:layout_marginTop="0dp"
+                android:layout_marginTop="-10dp"
                 android:layout_width="360dp"
                 android:layout_height="360dp"
                 android:orientation="vertical"
-                android:src="@drawable/icon2"
+                android:src="@drawable/icon_main1"
                 android:paddingLeft="@dimen/icon_horizontal_margin"
                 android:paddingRight="@dimen/icon_horizontal_margin"
 
@@ -40,29 +34,59 @@
                 > </ImageView>
 
             <Button
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="选择图片"
-                android:id="@+id/button1"
+                android:text="@string/btn_pic"
+                android:id="@+id/btn_pic"
                 android:layout_gravity="center"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="40dp"
+                android:background="@drawable/btn_round_rect" />
 
             <Button
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="新建画板"
-                android:id="@+id/button2"
+                android:text="@string/btn_blank"
+                android:id="@+id/btn_blank"
                 android:layout_gravity="center"
-                android:layout_below="@+id/button1"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="40dp"
+                android:background="@drawable/btn_round_rect"/>
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_about"
+                android:layout_gravity="center"
+                android:text="@string/btn_about"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="40dp"
+                android:background="@drawable/btn_round_rect"
+                />
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_update"
+                android:layout_gravity="center"
+                android:text="@string/btn_update"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="40dp"
+                android:background="@drawable/btn_round_rect"
+                />
         </LinearLayout>
 
 
     </LinearLayout>
 
+    <!--<LinearLayout-->
+        <!--android:layout_width="300dp"-->
+        <!--android:layout_height="80dp"-->
+        <!--android:orientation="vertical"-->
+        <!--android:background="@drawable/header"-->
+        <!--android:id="@+id/blank_main"-->
+        <!--android:layout_marginTop="30dp"-->
+        <!--android:layout_gravity="center|top">-->
+
+    <!--</LinearLayout>-->
 
 
-
-</RelativeLayout>
+</FrameLayout>

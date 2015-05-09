@@ -22,6 +22,7 @@ import android.view.View;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
+import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
 import java.io.File;
@@ -48,6 +49,7 @@ public class DrawView extends View {
     Bitmap fxBitmap = null;
     static {
         if (!OpenCVLoader.initDebug()) {
+//            System.loadLibrary("lib");
             // Handle initialization error
         }
     }
@@ -166,6 +168,44 @@ public class DrawView extends View {
         fxBitmap = grayBitmap;
         invalidate();
         Log.i("jason", "procSrc2Gray sucess...");
+        try {
+            saveFxBitmap(grayBitmap);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //return grayBitmap;
+    }
+
+    public void procCanny(){
+        Mat rgbMat = new Mat();
+        Mat edgeMat = new Mat();
+        Bitmap sourceBitmap = BitmapProvider.getBitmap();
+        Bitmap grayBitmap =  Bitmap.createBitmap(sourceBitmap.getWidth(), sourceBitmap.getHeight(), Config.RGB_565);
+        Utils.bitmapToMat(sourceBitmap, rgbMat);//convert original bitmap to Mat, R G B.
+        Imgproc.Canny(rgbMat, edgeMat, 80, 100);
+        Utils.matToBitmap(edgeMat, grayBitmap); //convert mat to bitmap
+        fxBitmap = grayBitmap;
+        invalidate();
+        Log.i("jason", "procCanny sucess...");
+        try {
+            saveFxBitmap(grayBitmap);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //return grayBitmap;
+    }
+
+    public void procGauss(){
+        Mat rgbMat = new Mat();
+        Mat gaussMat = new Mat();
+        Bitmap sourceBitmap = BitmapProvider.getBitmap();
+        Bitmap grayBitmap =  Bitmap.createBitmap(sourceBitmap.getWidth(), sourceBitmap.getHeight(), Config.RGB_565);
+        Utils.bitmapToMat(sourceBitmap, rgbMat);//convert original bitmap to Mat, R G B.
+        Imgproc.GaussianBlur(rgbMat, gaussMat, new Size(7,7), 1.5, 1.5);
+        Utils.matToBitmap(gaussMat, grayBitmap); //convert mat to bitmap
+        fxBitmap = grayBitmap;
+        invalidate();
+        Log.i("jason", "procGauss sucess...");
         try {
             saveFxBitmap(grayBitmap);
         } catch (IOException e) {

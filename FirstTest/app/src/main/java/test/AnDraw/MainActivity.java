@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -20,9 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -36,7 +33,6 @@ import static java.lang.Thread.sleep;
 
 
 public class MainActivity extends ActionBarActivity {
-    private static int flag = 0;
     private static boolean isExit = false;
 
     Handler mHandler = new Handler() {
@@ -70,14 +66,13 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    private Button button1;
-    private Button button2;
+    private Button btnPic, btnBlank, btnAbout, btnUpdate;
     private Button.OnClickListener mainOnClickListener;
-    private String  background[] = new String[] {"白色","黑色","红色","蓝色"};
+    private String bgColor[] = new String[] {"白色","黑色","红色","蓝色"};
     private  int view_width;
     private  int view_height;
     private ImageView iconView;
-    private LinearLayout blankView,containerView;
+    private LinearLayout containerView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -97,23 +92,25 @@ public class MainActivity extends ActionBarActivity {
         bitmapProvider.width = view_width;
         bitmapProvider.height = view_height;
 
-        button1 = (Button)findViewById(R.id.button1);
-        button2 = (Button)findViewById(R.id.button2);
+        btnPic = (Button)findViewById(R.id.btn_pic);
+        btnBlank = (Button)findViewById(R.id.btn_blank);
+        btnAbout = (Button)findViewById(R.id.btn_about);
+        btnUpdate = (Button)findViewById(R.id.btn_update);
 
         mainOnClickListener = new Button.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                if(v == button1){
+                if(v == btnPic){
                     Intent intent = new Intent();
                     intent.setType("image/*");
                     intent.setAction(Intent.ACTION_GET_CONTENT);
                     startActivityForResult(intent,1);
-                }else if(v == button2){
+                }else if(v == btnBlank){
                     new AlertDialog.Builder(MainActivity.this)
                     .setTitle("请选择背景颜色")
-                    .setItems(background, new DialogInterface.OnClickListener() {
+                    .setItems(bgColor, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Log.i("xxx", String.valueOf(which));
@@ -125,15 +122,21 @@ public class MainActivity extends ActionBarActivity {
                     })
                     .setNegativeButton("取消", null)
                     .show();
-
+                }else if(v == btnAbout){
+                    Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+                    startActivity(intent);
+                }else if(v == btnUpdate){
+                    UpdateProvider updateProvider = new UpdateProvider(getApplicationContext());
+                    updateProvider.checkUpdateInfo();
                 }
 
             }
         };
-        button1.setOnClickListener(mainOnClickListener);
-        button2.setOnClickListener(mainOnClickListener);
-
-        blankView = (LinearLayout) findViewById(R.id.blank_main);
+        btnPic.setOnClickListener(mainOnClickListener);
+        btnBlank.setOnClickListener(mainOnClickListener);
+        btnAbout.setOnClickListener(mainOnClickListener);
+        btnUpdate.setOnClickListener(mainOnClickListener);
+//        blankView = (LinearLayout) findViewById(R.id.blank_main);
         containerView = (LinearLayout) findViewById(R.id.container_main);
         containerView.setVisibility(View.INVISIBLE);
 
